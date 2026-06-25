@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <style>
+         td
+         {
+            padding:10px ;
+         }
+         .d{
+            margin-top: 10px;
+            float: right;
+            margin-right: 5%;
+        }
+         .d input{
+            background-color: black;
+            color: rgb(253, 215, 0);
+            border: black 4px solid;
+            border-radius: 8%;
+            width: 100px;
+        
+         }
+         #r{
+            margin-top: 5px;
+            margin-left:53.5%;
+         }
+         .x{
+            font-size: larger;
+            color: purple;
+            font-weight: bold;
+         }
+         .k{
+            font-weight: bold;
+            color: purple;
+            font-size: large;
+         }
+         #g{
+            width: 180px;
+         }
+         fieldset{
+            border: 2px solid black;
+            margin-bottom: 20px;
+         }
+
+        #f{
+            width: 100%;
+            height: 600px;
+        }
+
+    </style>
+    <script src="calculer.js"></script>
+</head>
+<body >
+    <form action="enregistrement.php"  method="post" onsubmit="return valid()" >
+        <fieldset>
+            <table>
+                <tr>
+                    <td class="x">cin</td>
+                    <td><input type="text" maxlength="8"  required name="c" id="c"></td>
+                    </tr>
+                    <tr>
+                    <td class="x">nom</td>
+                    <td><input type="text" name="n"   required id=""></td>
+                    </tr>
+                    <tr>
+                    <td class="x">prenom</td>
+                    <td><input type="text" name="p" required  id=""></td>
+                    </tr>
+                    <tr>
+                    <td class="x">groupe</td>
+                    <td>
+                        <select name="g" id="g">
+                            <option value="LNSI1">LNSI1</option>
+                            <option value="LNSI2">LNSI2</option>
+                            <option value="LNSI3">LNSI3</option>
+                            <option value="LNSI4">LNSI4</option>
+                            <option value="LNSI5">LNSI5</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="x">annae</td>
+                    <td>
+                        <select name="a" id="a">
+                            <option value="1eme">premiere</option>
+                            <option value="2eme">deuxieme</option>
+                            <option value="3eme">troisieme</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <div class="d">
+                <input type="submit" value="enregistrer">
+            </div>
+        </fieldset>
+    </form>
+    <form action="supprime.php" method="post" onsubmit="return motpss()">
+        <fieldset>
+            <table>
+                <tr>
+          <td class="x" >CIN</td>
+          <td ><input type="text" name="q" id="q" maxlength="8" ></td>
+        </tr>
+        <tr>
+          <td class="x" >supprime tout les donner</td>
+          <td><input type="checkbox" name="s" id="s"></td>
+        </tr>
+    </table>
+      <div class="d">
+          <input type="submit" value="supprime">
+        </div>
+    </fieldset>
+</form>
+<fieldset>
+    <select name="" id="an" onchange="affich()" >
+        <option value="1">premiere</option>
+        <option value="2">deuxieme</option>
+        <option value="3">troisieme</option>
+    </select>
+    <section>
+        <iframe src="1eme.php" id="f" frameborder="0">
+        </iframe>
+    </section>
+</fieldset>
+
+</body>
+</html>

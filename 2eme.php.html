@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matieres</title>
+</head>
+<style>
+#mm {
+    width: 70%;
+    font-family: monospace;
+    text-align: left;  
+    display: block;
+    margin: auto;
+    height: auto;
+}
+
+
+</style>
+<body>
+    <form action="" method="post">
+        <fieldset>
+            <p>nom matiere: <input type="text" name="m" id="m"></p>
+            <p>coeff: <input  type="number" min="0" name="c" id="c"></p>
+
+            <p>
+                type:
+                <select name="t">
+                    <option value="p">%70 %20 %10</option>
+                    <option value="s">%80 %20</option>
+                </select>
+            </p>
+
+            <button type="submit" name="matiere" value="a">ajouter</button>
+            <br><br>
+            <?php
+        $con=mysqli_connect("localhost","root","","projet") or die("errure");
+    if (isset($_POST["matiere"])) {
+        if ($_POST["matiere"] == 'a') 
+            {  
+                
+                if (!empty($_POST["m"]) && !empty($_POST["c"]) && !empty($_POST["t"])) {
+
+                    $m = $_POST["m"];
+                    $c = $_POST["c"];
+                    $t = $_POST["t"];
+                    $a = '2eme';
+                    
+            $req ="INSERT INTO matieres (nomMat, coeff,type, anne)
+            VALUES ('$m', '$c', '$t', '$a')";
+            $res=mysqli_query($con, $req);
+        }
+    }
+}
+if (isset($_POST["matiere"])) {
+    
+    if ($_POST["matiere"] == 's') 
+        {
+            
+            if (!empty($_POST["mm"])) {
+                
+                $mat = $_POST["mm"];
+                $req = "DELETE FROM matieres WHERE anne='2eme' AND nomMat='$mat'";
+                mysqli_query($con, $req);
+            }
+        } 
+    } 
+?>
+
+<?php
+        $req = "SELECT COUNT(*)+1 FROM matieres WHERE anne='2eme'";
+        $res = mysqli_query($con, $req);
+        $t = mysqli_fetch_row($res);
+        echo "<select name='mm' id='mm' size='{$t[0]}'>";
+        $nom=str_pad("name_matiere", 50,",",STR_PAD_RIGHT);
+        $coeff=str_pad("coeff",33,",",STR_PAD_LEFT);
+        $nom=str_replace(",","&nbsp;",$nom);
+        $coeff=str_replace(",","&nbsp;",$coeff);
+        echo "<option value=''>$nom $coeff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type</option>";
+        
+        $con=mysqli_connect("localhost","root","","projet") or die("errure");
+        
+        $req="select nomMat, coeff, type from matieres where anne='2eme'";
+        $res=mysqli_query($con,$req);
+        
+        while ($t=mysqli_fetch_row($res)) {
+            
+            if ($t[2]=='p') {
+                $type='%70%20%10';
+            } else {
+                $type='%80%20';
+            }
+        
+                      $nom=str_pad($t[0],50,",",STR_PAD_RIGHT);
+                      $coeff=str_pad($t[1],35,",",STR_PAD_LEFT);
+                      $type=str_pad($type,45,",",STR_PAD_LEFT);
+                    $nom=str_replace(",","&nbsp;",$nom);
+                    $coeff=str_replace(",","&nbsp;",$coeff);
+                    $type=str_replace(",","&nbsp;",$type);
+                      echo "<option value='{$t[0]}'>{$nom}{$coeff}{$type}</option>";
+                }
+                ?>
+            </select><br>
+
+            <button type="submit" name="matiere" value="s">supprimer</button>
+        </fieldset>
+    </form>
+</body>
+</html>

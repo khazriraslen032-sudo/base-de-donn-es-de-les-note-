@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <style>
+        tr,th{
+            width: 50px;
+            font-weight: bold;
+            font-size: large;
+            height: 50px;
+            
+        }
+.t
+{
+    width: 70%;
+     text-align: center;
+     margin: auto;
+}
+p{
+    float: right;
+    font-weight: bold;
+    margin-right: 2%;
+}
+         fieldset{
+            border: 4px solid black;
+            margin: auto;
+            width: 70%;
+            margin-bottom: 20px;
+            padding: 1%;
+         }
+    .z{
+        width: 50%;
+    }
+</style>
+<script >
+    function time(){
+    d=new  Date
+    j=d.getDate()
+    m=d.getMonth()+1
+    y=d.getFullYear()
+    document.getElementById("t").innerHTML=String(j)+"/"+String(m)+"/"+String(y)
+    }
+</script>
+</head> 
+<body onload="time()">
+<fieldset>
+<p id="t"></p>
+<table>
+<?php
+$con=mysqli_connect("localhost","root","","projet") or die("errure");
+$c=$_POST['cin'];
+$req="select cin , nom , prenom , groupe , anne  from etudiant  where cin='$c'";
+$res=mysqli_query($con,$req);
+$t=mysqli_fetch_row($res);
+echo "
+   <tr>
+    <td>cin: $t[0]</td>
+</tr>
+<tr>
+    <td>nom: $t[1]</td>
+</tr>
+<tr>
+    <td>prenom: $t[2]</td>
+</tr>
+<tr>
+    <td>groupe: $t[3]</td>
+</tr>
+
+";
+$anne=$t[4];
+$group=$t[3];
+?>
+</table>
+</fieldset>
+
+<?php
+$con=mysqli_connect("localhost","root","","projet") or die("errure");
+$c=$_POST['cin'];
+$req="select nomM , moy   from etudiant E , matier M where E.cin='$c' and  E.cin=M.cin order by  nomM asc ";
+$res=mysqli_query($con,$req);
+echo" 
+
+     <table border='3px' class='t'>
+        <tr>
+        <th>nom Matier</th>
+        <th>moyenne</th>
+        <th>N°</th>
+        </tr>";
+while ($t=mysqli_fetch_row($res)) {
+    echo "<tr>
+            <td> $t[0] </td>
+            <td> $t[1] </td>
+            ";
+    $req = "select count(*)+1 AS rang
+         from matier M, etudiant E  
+         where E.cin=M.cin and nomM='$t[0]' and  moy > $t[1] and E.groupe='$group' and E.anne='$anne'";
+    $res1=mysqli_query($con,$req);
+    $t1=mysqli_fetch_row($res1);
+    echo"<td> $t1[0] </td>
+    </tr>";
+}
+$req="select moyenne  from etudiant  where cin='$c'";
+$res=mysqli_query($con,$req);
+$t=mysqli_fetch_row($res);
+ $req = "select count(moyenne )+1
+         from etudiant 
+         where  CAST( moyenne AS DECIMAL(4,2) )> CAST( $t[0] AS DECIMAL(4,2)) and groupe='$group' and anne='$anne'   ";
+    $res1=mysqli_query($con,$req);
+    $t1=mysqli_fetch_row($res1);
+    if ($t[0]>=10){
+              $a="Admais"; 
+     }
+        else
+        {
+              $a="control";
+        }
+echo"</table>
+<table border='3px' class='t' id='x'>
+ <tr >
+    <td class='z'>moyenne total</td>
+    <td >$t[0]</td>
+    <td >$a</td>
+    <td >$t1[0]</td>
+</tr>
+</table>";
+?>
+</body>
+</html>
+ 
